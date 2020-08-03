@@ -2,9 +2,11 @@ package com.vhaibrother.vehicle_client_mng.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 @Builder
 public class Response {
     @JsonInclude(JsonInclude.Include.ALWAYS)
