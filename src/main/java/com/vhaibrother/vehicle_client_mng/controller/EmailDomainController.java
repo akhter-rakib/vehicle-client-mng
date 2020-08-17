@@ -6,10 +6,7 @@ import com.vhaibrother.vehicle_client_mng.dto.EmailDomainDto;
 import com.vhaibrother.vehicle_client_mng.dto.Response;
 import com.vhaibrother.vehicle_client_mng.service.EmailDomainService;
 import com.vhaibrother.vehicle_client_mng.util.UrlConstraint;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 
 @ApiController
@@ -23,11 +20,26 @@ public class EmailDomainController {
     }
 
     @PostMapping
-    public Response saveDomain(@RequestBody EmailDomainDto emailDomainDto){
+    public Response saveDomain(@RequestBody EmailDomainDto emailDomainDto) {
         return emailDomainService.save(emailDomainDto);
     }
-     @GetMapping
-    public Response getAll(){
+
+    @GetMapping
+    public Response getAll() {
         return emailDomainService.getAll();
-     }
+    }
+
+    @GetMapping(value = UrlConstraint.DomainManagement.GET)
+    public Response getById(@PathVariable("domainId") Long domainId) {
+        return emailDomainService.getById(domainId);
+    }
+
+    @DeleteMapping(value = UrlConstraint.DomainManagement.DELETE)
+    public Response deleteEmailDomain(@PathVariable("domainId") Long domainId) {
+        return emailDomainService.delete(domainId);
+    }
+    @PutMapping(value = UrlConstraint.DomainManagement.PUT)
+    public Response updateEmailDomain(@RequestBody EmailDomainDto emailDomainDto, @PathVariable("domainId") Long domainId){
+        return emailDomainService.update(domainId,emailDomainDto);
+    }
 }
