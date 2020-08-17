@@ -67,7 +67,7 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public Response del(Long id) {
-        Color color = colorRepository.getOne(id);
+        Color color = colorRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
         if (color != null) {
             color.setActiveStatus(ActiveStatus.DELETE.getValue());
             color = colorRepository.save(color);
