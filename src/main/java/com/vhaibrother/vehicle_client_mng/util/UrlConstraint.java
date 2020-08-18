@@ -14,4 +14,11 @@ public final class UrlConstraint {
         public static final String PUT = "/{colorId}";
 
     }
+    public static class ProfessionManagement{
+        public static final String ROOT = VERSION + API + "/professions";
+        public static final String DELETE = "/{professionId}";
+        public static final String GET = "/{professionId}";
+        public static final String PUT = "/{professionId}";
+    }
+
 }

@@ -13,6 +13,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ProfessionServiceImpl implements ProfessionService {
 
@@ -80,6 +83,21 @@ public class ProfessionServiceImpl implements ProfessionService {
 
     @Override
     public Response getAll() {
-        return null;
+        List<Profession> professionList = professionRepository.list(ActiveStatus.ACTIVE.getValue());
+        List<ProfessionDto> professionDtoList = this.getProfessions(professionList);
+        if (professionDtoList.isEmpty() || professionDtoList == null) {
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "There is No" + root, null);
+        }
+        return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + "Data Retrieve Successfully", professionDtoList);
     }
+
+    private List<ProfessionDto> getProfessions(List<Profession> professions) {
+        List<ProfessionDto> professionDtoList = new ArrayList<>();
+        professions.forEach(profession -> {
+            ProfessionDto professionDto = modelMapper.map(profession, ProfessionDto.class);
+            professionDtoList.add(professionDto);
+        });
+        return professionDtoList;
+    }
+
 }
