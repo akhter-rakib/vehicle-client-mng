@@ -1,6 +1,6 @@
 package com.vhaibrother.vehicle_client_mng.util;
 
-import com.vhaibrother.vehicle_client_mng.dto.UserPrinciple;
+import com.vhaibrother.vehicle_client_mng.entity.MyUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
@@ -41,11 +41,11 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    public String generateToken(Authentication authentication) {
-        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+    public String generateToken(UserDetails userDetails) {
+        //MyUserDetails userPrinciple = (UserDetails) authentication.getPrincipal();
         Map<String, Object> claims = new HashMap<>();
-        claims.put("username", userPrinciple.getUsername());
-        return createToken(claims, userPrinciple.getUsername());
+        claims.put("username", userDetails.getUsername());
+        return createToken(claims, userDetails.getUsername());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
@@ -57,8 +57,7 @@ public class JwtUtil {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        String username = userDetails.getUsername();
-        final String userName = this.extractUsername(username);
-        return (userName.equals(username) && !isTokenExpired(token));
+        final String username = this.extractUsername(userDetails.getUsername());
+        return (username.equals(username) && !isTokenExpired(token));
     }
 }

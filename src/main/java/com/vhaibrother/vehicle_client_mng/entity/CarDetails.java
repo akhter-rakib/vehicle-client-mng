@@ -19,5 +19,5 @@ public class CarDetails extends BaseModel{
     private int engineCapacity;
     private String fuelSystem;
     private String place;
-    private String image;
+
 }

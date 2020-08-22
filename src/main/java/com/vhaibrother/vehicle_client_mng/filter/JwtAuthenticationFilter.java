@@ -36,26 +36,24 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         final String authorizationHeader = httpServletRequest.getHeader("Authorization");
 
-        String username = null;
-        String jwt = null;
-
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String username = null;
+            String jwt = null;
             jwt = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
-        }
+            try {
+                UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(username);
+                if (StringUtils.hasText(jwt) && jwtUtil.validateToken(jwt, userDetails)) {
+                    String userId = jwtUtil.extractUsername(jwt);
+                    User user = userRepository.getByUserNameAndActiveStatusTrue(ActiveStatus.ACTIVE.getValue(), userId);
+                    // UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUserName());
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            } catch (Exception e) {
 
-        try {
-            UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(username);
-            if (StringUtils.hasText(jwt) && jwtUtil.validateToken(jwt, userDetails)) {
-                String userId = jwtUtil.extractUsername(jwt);
-                User user = userRepository.getByUserNameAndActiveStatusTrue(ActiveStatus.ACTIVE.getValue(), userId);
-                // UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUserName());
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } catch (Exception e) {
-
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }

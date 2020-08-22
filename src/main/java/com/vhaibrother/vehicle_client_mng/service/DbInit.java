@@ -30,7 +30,7 @@ public class DbInit {
         role.setName("ADMIN");
         roleRepository.save(role);
         User user = new User();
-        user.setUserName("rakib");
+        user.setUsername("rakib");
         user.setPassword(passwordEncoder.encode("pass"));
         user.setEmail("rakibccj@gmail.com");
         user.setRoles(Arrays.asList(role));
