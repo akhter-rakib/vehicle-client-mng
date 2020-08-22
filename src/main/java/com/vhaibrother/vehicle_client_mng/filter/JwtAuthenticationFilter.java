@@ -1,8 +1,6 @@
 package com.vhaibrother.vehicle_client_mng.filter;
 
 
-import com.vhaibrother.vehicle_client_mng.entity.User;
-import com.vhaibrother.vehicle_client_mng.enums.ActiveStatus;
 import com.vhaibrother.vehicle_client_mng.repository.UserRepository;
 import com.vhaibrother.vehicle_client_mng.service.impl.CustomUserDetailsService;
 import com.vhaibrother.vehicle_client_mng.util.JwtUtil;
@@ -41,18 +39,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String jwt = null;
             jwt = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
-            try {
-                UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(username);
-                if (StringUtils.hasText(jwt) && jwtUtil.validateToken(jwt, userDetails)) {
-                    String userId = jwtUtil.extractUsername(jwt);
-                    User user = userRepository.getByUserNameAndActiveStatusTrue(ActiveStatus.ACTIVE.getValue(), userId);
-                    // UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUserName());
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
-                    SecurityContextHolder.getContext().setAuthentication(authentication);
-                }
-            } catch (Exception e) {
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                try {
+                    UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(username);
+                    if (jwtUtil.validateToken(jwt, userDetails)) {
+                        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                    }
+                } catch (Exception e) {
 
+                }
             }
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
