@@ -7,6 +7,7 @@ import com.vhaibrother.vehicle_client_mng.service.AuthService;
 import com.vhaibrother.vehicle_client_mng.util.UrlConstraint;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,7 +24,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @GetMapping(UrlConstraint.AuthManagement.LOGIN)
+    @PostMapping(UrlConstraint.AuthManagement.LOGIN)
     public Response login(@RequestBody LoginDto loginDto, HttpServletRequest request, HttpServletResponse response) {
         return authService.login(loginDto);
     }

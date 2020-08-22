@@ -15,10 +15,12 @@ import java.util.Arrays;
 public class DbInit {
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public DbInit(RoleRepository roleRepository, UserRepository userRepository) {
+    public DbInit(RoleRepository roleRepository, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
 
     }
 
@@ -29,7 +31,7 @@ public class DbInit {
         roleRepository.save(role);
         User user = new User();
         user.setUserName("rakib");
-        user.setPassword("pass");
+        user.setPassword(passwordEncoder.encode("pass"));
         user.setEmail("rakibccj@gmail.com");
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);

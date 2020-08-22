@@ -29,11 +29,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Response login(LoginDto loginDto) {
-        User user = userRepository.getByUserNameAndActiveStatusTrue(ActiveStatus.ACTIVE.getValue(), loginDto.getUserName());
+        User user = userRepository.getByUserNameAndActiveStatusTrue(ActiveStatus.ACTIVE.getValue(), loginDto.getUsername());
         if (user == null) {
             return ResponseBuilder.getFailureResponse(HttpStatus.UNAUTHORIZED, "Invalid Username or password");
         }
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUserName(), loginDto.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
 
         if (authentication.isAuthenticated()) {
             LoginResponseDto loginResponseDto = new LoginResponseDto();
