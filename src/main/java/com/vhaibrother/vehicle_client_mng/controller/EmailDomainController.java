@@ -9,7 +9,6 @@ import com.vhaibrother.vehicle_client_mng.util.UrlConstraint;
 import org.springframework.web.bind.annotation.*;
 
 
-@CrossOrigin("*")
 @ApiController
 @RequestMapping(UrlConstraint.DomainManagement.ROOT)
 public class EmailDomainController {
