@@ -23,13 +23,13 @@ public final class UrlConstraint {
         public static final String PUT = "/{domainId}";
     }
     public static class ProfessionManagement{
-        public static final String ROOT = VERSION + API + "/professions";
+        public static final String ROOT =  API + VERSION + "/professions";
         public static final String DELETE = "/{professionId}";
         public static final String GET = "/{professionId}";
         public static final String PUT = "/{professionId}";
     }
     public static class ClientManagement{
-        public static final String ROOT = VERSION + API + "/clients";
+        public static final String ROOT = API + VERSION + "/clients";
         public static final String DELETE = "/{clientId}";
         public static final String GET = "/{clientId}";
         public static final String PUT = "/{clientId}";
