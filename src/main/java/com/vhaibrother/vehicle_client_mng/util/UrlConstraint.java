@@ -22,6 +22,25 @@ public final class UrlConstraint {
         public static final String GET = "/{domainId}";
         public static final String PUT = "/{domainId}";
     }
+
+    public static class CarNameManagement {
+        public static final String ROOT = VERSION + API + "/carNames";
+        public static final String DELETE = "/{carNameId}";
+        public static final String GET = "/{carNameId}";
+        public static final String PUT = "/{carNameId}";
+    }
+
+    public static class UserManagement {
+        public static final String ROOT = VERSION + API + "/users";
+        public static final String DELETE = "/{id}";
+        public static final String GET = "/{id}";
+        public static final String PUT = "/{id}";
+    }
+
+    public static class AuthManagement {
+        public static final String ROOT = VERSION + API + "/auth";
+        public static final String LOGIN = "/login";
+    }
     public static class ProfessionManagement{
         public static final String ROOT =  API + VERSION + "/professions";
         public static final String DELETE = "/{professionId}";
