@@ -30,6 +30,10 @@ public class ProfessionServiceImpl implements ProfessionService {
 
     @Override
     public Response save(ProfessionDto professionDto) {
+        Profession professionName = getProfessionName(professionDto);
+        if (professionName != null) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
+        }
         Profession profession;
         profession = modelMapper.map(professionDto, Profession.class);
         profession = professionRepository.save(profession);
@@ -41,6 +45,10 @@ public class ProfessionServiceImpl implements ProfessionService {
 
     @Override
     public Response update(Long id, ProfessionDto professionDto) {
+        Profession professionName = getProfessionName(professionDto);
+        if (professionName != null) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
+        }
         Profession profession;
         profession = professionRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
         if (profession != null) {
@@ -98,6 +106,11 @@ public class ProfessionServiceImpl implements ProfessionService {
             professionDtoList.add(professionDto);
         });
         return professionDtoList;
+    }
+
+    private Profession getProfessionName(ProfessionDto professionDto) {
+        Profession professionName = professionRepository.findByProfessionName(professionDto.getProfessionName());
+        return professionName;
     }
 
 }

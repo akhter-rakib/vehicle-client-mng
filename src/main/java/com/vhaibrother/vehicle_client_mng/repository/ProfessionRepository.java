@@ -16,4 +16,6 @@ public interface ProfessionRepository extends JpaRepository<Profession, Long> {
 
     @Query("from Profession where id = :id and activeStatus = :activeStatus")
     Profession getByIdAndActiveStatusTrue(@Param("id") Long id, @Param("activeStatus") Integer activeStatus);
+
+    Profession findByProfessionName(String professionName);
 }

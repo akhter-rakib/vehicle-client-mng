@@ -13,4 +13,6 @@ public interface ColorRepository extends JpaRepository<Color, Long> {
 
     @Query("from Color where id = :colorId and activeStatus = :activeStatus")
     Color getByIdAndActiveStatusTrue(@Param("colorId") Long colorId, @Param("activeStatus") Integer activeStatus);
+
+    Color getColorByColorName(String colorName);
 }

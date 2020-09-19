@@ -29,6 +29,10 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public Response save(ColorDto colorDto) {
+        Color colorName = getColorByName(colorDto);
+        if (colorName != null) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
+        }
         Color color;
         color = modelMapper.map(colorDto, Color.class);
         color = colorRepository.save(color);
@@ -40,6 +44,10 @@ public class ColorServiceImpl implements ColorService {
 
     @Override
     public Response update(Long id, ColorDto colorDto) {
+        Color colorName = getColorByName(colorDto);
+        if (colorName != null) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
+        }
         Color color = colorRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
         if (color != null) {
             modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
@@ -97,5 +105,10 @@ public class ColorServiceImpl implements ColorService {
             colorDtoList.add(colorDto);
         });
         return colorDtoList;
+    }
+
+    private Color getColorByName(ColorDto colorDto) {
+        Color color = colorRepository.getColorByColorName(colorDto.getColorName());
+        return color;
     }
 }

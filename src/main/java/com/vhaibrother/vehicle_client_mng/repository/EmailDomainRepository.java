@@ -18,4 +18,6 @@ public interface EmailDomainRepository extends JpaRepository<EmailDomain, Long> 
     @Query("from EmailDomain where id = :domainId and activeStatus = :activeStatus")
     EmailDomain getByIdAndActiveStatusTrue(@Param("domainId") Long domainId, @Param("activeStatus") Integer activeStatus);
 
+    EmailDomain findByDomainName(String emailDomain);
+
 }

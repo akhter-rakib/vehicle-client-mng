@@ -30,73 +30,86 @@ public class EmailDomainServiceImpl implements EmailDomainService {
 
     @Override
     public Response save(EmailDomainDto emailDomainDto) {
+        EmailDomain emailDomainName = getEmailDomain(emailDomainDto);
+        if (emailDomainName != null) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
+        }
         EmailDomain emailDomain;
         emailDomain = modelMapper.map(emailDomainDto, EmailDomain.class);
         emailDomain = emailDomainRepository.save(emailDomain);
-        if (emailDomain != null){
-            return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, root+" has been Created",null);
+        if (emailDomain != null) {
+            return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, root + " has been Created", null);
         }
-        return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR,"Internal Server Error");
+        return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
     }
 
     @Override
     public Response update(Long id, EmailDomainDto emailDomainDto) {
-        EmailDomain emailDomain = emailDomainRepository.getByIdAndActiveStatusTrue(id,ActiveStatus.ACTIVE.getValue());
-        if (emailDomain != null){
+        EmailDomain emailDomainName = getEmailDomain(emailDomainDto);
+        if (emailDomainName != null) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
+        }
+        EmailDomain emailDomain = emailDomainRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
+        if (emailDomain != null) {
             modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
             emailDomain = modelMapper.map(emailDomainDto, EmailDomain.class);
             emailDomain = emailDomainRepository.save(emailDomain);
-            if (emailDomain != null){
-                return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root+" Updated Successfully",null);
+            if (emailDomain != null) {
+                return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + " Updated Successfully", null);
             }
-            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, root+" Internal Server Error Occurs");
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, root + " Internal Server Error Occurs");
         }
-        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root+" Not Found");
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root + " Not Found");
     }
 
     @Override
     public Response getById(Long id) {
         EmailDomain emailDomain = emailDomainRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
-        if (emailDomain != null){
+        if (emailDomain != null) {
             modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-            EmailDomainDto emailDomainDto = modelMapper.map(emailDomain,EmailDomainDto.class);
-            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root+" retrieved Successfully", emailDomainDto);
+            EmailDomainDto emailDomainDto = modelMapper.map(emailDomain, EmailDomainDto.class);
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + " retrieved Successfully", emailDomainDto);
         }
-        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root+" not found");
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root + " not found");
     }
 
     @Override
     public Response delete(Long id) {
         EmailDomain emailDomain = emailDomainRepository.getOne(id);
-        if (emailDomain != null){
+        if (emailDomain != null) {
             emailDomain.setActiveStatus(ActiveStatus.DELETE.getValue());
             emailDomain = emailDomainRepository.save(emailDomain);
-            if (emailDomain != null){
-                return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root+" Deleted Successfully",null);
+            if (emailDomain != null) {
+                return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + " Deleted Successfully", null);
             }
-            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, root+" Internal Server Error Occurs");
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, root + " Internal Server Error Occurs");
         }
-        return  ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root+" not found");
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root + " not found");
     }
 
     @Override
     public Response getAll() {
         List<EmailDomain> domainList = emailDomainRepository.list(ActiveStatus.ACTIVE.getValue());
         List<EmailDomainDto> domainDtoList = this.getDomainName(domainList);
-        if (domainDtoList.isEmpty() || domainDtoList == null){
+        if (domainDtoList.isEmpty() || domainDtoList == null) {
             return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "There is no domainName", null);
         }
         return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + "Data Retrieve Successfully", domainDtoList);
     }
 
-    private List<EmailDomainDto> getDomainName(List<EmailDomain> domains){
+    private List<EmailDomainDto> getDomainName(List<EmailDomain> domains) {
 
         List<EmailDomainDto> emailDomainDtos = new ArrayList<>();
-        domains.forEach(domain ->{
+        domains.forEach(domain -> {
             modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
-            EmailDomainDto emailDomainDto = modelMapper.map(domain,EmailDomainDto.class);
+            EmailDomainDto emailDomainDto = modelMapper.map(domain, EmailDomainDto.class);
             emailDomainDtos.add(emailDomainDto);
         });
         return emailDomainDtos;
+    }
+
+    private EmailDomain getEmailDomain(EmailDomainDto emailDomainDto) {
+        EmailDomain emailDomain = emailDomainRepository.findByDomainName(emailDomainDto.getDomainName());
+        return emailDomain;
     }
 }
