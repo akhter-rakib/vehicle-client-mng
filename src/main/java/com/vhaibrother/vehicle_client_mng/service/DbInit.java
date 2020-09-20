@@ -2,6 +2,7 @@ package com.vhaibrother.vehicle_client_mng.service;
 
 import com.vhaibrother.vehicle_client_mng.entity.Role;
 import com.vhaibrother.vehicle_client_mng.entity.User;
+import com.vhaibrother.vehicle_client_mng.enums.ActiveStatus;
 import com.vhaibrother.vehicle_client_mng.repository.RoleRepository;
 import com.vhaibrother.vehicle_client_mng.repository.UserRepository;
 import org.springframework.context.annotation.Configuration;
@@ -26,13 +27,23 @@ public class DbInit {
 
     @PostConstruct
     public void addUser() {
+        String roleName = "ADMIN";
         Role role = new Role();
-        role.setName("ADMIN");
-        roleRepository.save(role);
-        User user = new User();
-        user.setUserName("rakib");
-        user.setPassword(passwordEncoder.encode("pass"));
-        user.setEmail("rakibccj@gmail.com");
+        int roleExist = roleRepository.countByName(roleName);
+        if (roleExist == 1) {
+            role = roleRepository.findByName(roleName);
+        } else {
+            role = new Role();
+            role.setName("ADMIN");
+            roleRepository.save(role);
+        }
+        User user = userRepository.getByUserNameAndActiveStatusTrue(ActiveStatus.ACTIVE.getValue(), "rakib");
+        if (user == null) {
+            user = new User();
+            user.setUserName("rakib");
+            user.setPassword(passwordEncoder.encode("pass"));
+            user.setEmail("rakibccj@gmail.com");
+        }
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);
 
