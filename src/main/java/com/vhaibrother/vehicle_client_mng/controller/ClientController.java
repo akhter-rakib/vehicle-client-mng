@@ -23,7 +23,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public Response saveClient(@RequestBody @Valid ClientDto clientDto, BindingResult bindingResult){
+    public Response saveClient(@Valid ClientDto clientDto, BindingResult bindingResult){
         if(bindingResult.hasErrors()){
             return ResponseBuilder.getFailureResponse(bindingResult, "Give valid data");
         }
@@ -45,7 +45,7 @@ public class ClientController {
     }
 
     @PutMapping(value = UrlConstraint.ClientManagement.PUT)
-    public Response updateClient(@RequestBody ClientDto clientDto, @PathVariable("clientId") Long clientId) {
+    public Response updateClient(ClientDto clientDto, @PathVariable("clientId") Long clientId) {
         return clientService.update(clientId, clientDto);
     }
 

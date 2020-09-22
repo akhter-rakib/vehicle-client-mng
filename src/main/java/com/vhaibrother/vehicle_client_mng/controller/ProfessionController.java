@@ -25,7 +25,7 @@ public class ProfessionController {
     }
 
     @PostMapping
-    public Response saveProfession(@RequestBody @Valid ProfessionDto professionDto, BindingResult bindingResult) {
+    public Response saveProfession(@Valid ProfessionDto professionDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseBuilder.getFailureResponse(bindingResult, "Plz give valid Data");
         }
@@ -48,7 +48,7 @@ public class ProfessionController {
     }
 
     @PutMapping(value = UrlConstraint.ProfessionManagement.PUT)
-    public Response updateProfession(@RequestBody ProfessionDto professionDto, @PathVariable("professionId") Long professionId) {
+    public Response updateProfession(ProfessionDto professionDto, @PathVariable("professionId") Long professionId) {
         return professionService.update(professionId, professionDto);
     }
 }
