@@ -17,7 +17,7 @@ public class CarModelController {
     }
 
     @PostMapping
-    public Response save(CarModelDto carModelDto) {
+    public Response save(@RequestBody CarModelDto carModelDto) {
         return carModelService.save(carModelDto);
     }
 
@@ -37,7 +37,7 @@ public class CarModelController {
     }
 
     @PutMapping(value = UrlConstraint.CarModelManagement.PUT)
-    public Response update(CarModelDto carModelDto, @PathVariable("carModelId") Long carModelId) {
+    public Response update(@RequestBody CarModelDto carModelDto, @PathVariable("carModelId") Long carModelId) {
         return carModelService.update(carModelId, carModelDto);
     }
 }
