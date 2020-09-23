@@ -17,7 +17,7 @@ public class ColorController {
     }
 
     @PostMapping
-    public Response saveColor(ColorDto colorDto) {
+    public Response saveColor(@RequestBody ColorDto colorDto) {
         return colorService.save(colorDto);
     }
 
@@ -37,7 +37,7 @@ public class ColorController {
     }
 
     @PutMapping(value = UrlConstraint.ColorManagement.PUT)
-    public Response updateColor(ColorDto colorDto, @PathVariable("colorId") Long colorId) {
+    public Response updateColor(@RequestBody ColorDto colorDto, @PathVariable("colorId") Long colorId) {
         return colorService.update(colorId, colorDto);
     }
 }

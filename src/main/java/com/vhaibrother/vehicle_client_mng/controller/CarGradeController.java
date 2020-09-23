@@ -18,7 +18,7 @@ public class CarGradeController {
     }
 
     @PostMapping
-    public Response save(CarGradeDto carGradeDto) {
+    public Response save(@RequestBody CarGradeDto carGradeDto) {
         return carGradeService.save(carGradeDto);
     }
 
@@ -38,7 +38,7 @@ public class CarGradeController {
     }
 
     @PutMapping(value = UrlConstraint.CarGradeManagement.PUT)
-    public Response updateColor(CarGradeDto carGradeDto, @PathVariable("carGradeId") Long carGradeId) {
+    public Response updateColor(@RequestBody CarGradeDto carGradeDto, @PathVariable("carGradeId") Long carGradeId) {
         return carGradeService.update(carGradeId, carGradeDto);
     }
 }
