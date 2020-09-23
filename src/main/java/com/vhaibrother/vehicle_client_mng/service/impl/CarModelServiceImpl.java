@@ -1,6 +1,5 @@
 package com.vhaibrother.vehicle_client_mng.service.impl;
 
-import com.vhaibrother.vehicle_client_mng.dto.CarGradeDto;
 import com.vhaibrother.vehicle_client_mng.dto.CarModelDto;
 import com.vhaibrother.vehicle_client_mng.dto.Response;
 import com.vhaibrother.vehicle_client_mng.entity.CarModel;
@@ -49,12 +48,27 @@ public class CarModelServiceImpl implements CarModelService {
 
     @Override
     public Response getById(Long id) {
-        return null;
+        CarModel carModel = carModelRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
+        if (carModel != null) {
+            modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+            CarModelDto carModelDto = modelMapper.map(carModel, CarModelDto.class);
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + " retrieved Successfully", carModelDto);
+        }
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root + " not found");
     }
 
     @Override
     public Response del(Long id) {
-        return null;
+        CarModel carModel = carModelRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
+        if (carModel != null) {
+            carModel.setActiveStatus(ActiveStatus.DELETE.getValue());
+            carModel = carModelRepository.save(carModel);
+            if (carModel != null) {
+                return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + "Delete SucessFully", null);
+            }
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+        }
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root + " not found");
     }
 
     @Override
