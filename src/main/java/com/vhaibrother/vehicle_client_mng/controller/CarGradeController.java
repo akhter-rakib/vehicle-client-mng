@@ -37,7 +37,7 @@ public class CarGradeController {
         return carGradeService.del(carGradeId);
     }
 
-    @PutMapping(value = UrlConstraint.ColorManagement.PUT)
+    @PutMapping(value = UrlConstraint.CarGradeManagement.PUT)
     public Response updateColor(CarGradeDto carGradeDto, @PathVariable("carGradeId") Long carGradeId) {
         return carGradeService.update(carGradeId, carGradeDto);
     }

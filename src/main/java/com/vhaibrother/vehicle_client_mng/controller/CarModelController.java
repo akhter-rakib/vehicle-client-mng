@@ -26,17 +26,17 @@ public class CarModelController {
         return carModelService.getAll();
     }
 
-    @GetMapping(value = UrlConstraint.ColorManagement.GET)
+    @GetMapping(value = UrlConstraint.CarModelManagement.GET)
     public Response getById(@PathVariable("carModelId") Long carModelId) {
         return carModelService.getById(carModelId);
     }
 
-    @DeleteMapping(value = UrlConstraint.ColorManagement.DELETE)
+    @DeleteMapping(value = UrlConstraint.CarModelManagement.DELETE)
     public Response del(@PathVariable("carModelId") Long carModelId) {
         return carModelService.del(carModelId);
     }
 
-    @PutMapping(value = UrlConstraint.ColorManagement.PUT)
+    @PutMapping(value = UrlConstraint.CarModelManagement.PUT)
     public Response update(CarModelDto carModelDto, @PathVariable("carModelId") Long carModelId) {
         return carModelService.update(carModelId, carModelDto);
     }
