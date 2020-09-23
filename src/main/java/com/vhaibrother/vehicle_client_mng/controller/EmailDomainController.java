@@ -20,7 +20,7 @@ public class EmailDomainController {
     }
 
     @PostMapping
-    public Response saveDomain(@RequestBody EmailDomainDto emailDomainDto) {
+    public Response saveDomain(EmailDomainDto emailDomainDto) {
         return emailDomainService.save(emailDomainDto);
     }
 
@@ -39,7 +39,7 @@ public class EmailDomainController {
         return emailDomainService.delete(domainId);
     }
     @PutMapping(value = UrlConstraint.DomainManagement.PUT)
-    public Response updateEmailDomain(@RequestBody EmailDomainDto emailDomainDto, @PathVariable("domainId") Long domainId){
+    public Response updateEmailDomain(EmailDomainDto emailDomainDto, @PathVariable("domainId") Long domainId){
         return emailDomainService.update(domainId,emailDomainDto);
     }
 }
