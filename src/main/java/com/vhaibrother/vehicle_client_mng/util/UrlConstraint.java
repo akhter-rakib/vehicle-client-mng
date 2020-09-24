@@ -1,7 +1,6 @@
 package com.vhaibrother.vehicle_client_mng.util;
 
 
-
 public final class UrlConstraint {
     private UrlConstraint() {
     }
@@ -17,17 +16,10 @@ public final class UrlConstraint {
     }
 
     public static class DomainManagement {
-        public static final String ROOT =  VERSION + API + "/domains";
+        public static final String ROOT = VERSION + API + "/domains";
         public static final String DELETE = "/{domainId}";
         public static final String GET = "/{domainId}";
         public static final String PUT = "/{domainId}";
-    }
-
-    public static class CarNameManagement {
-        public static final String ROOT = VERSION + API + "/carNames";
-        public static final String DELETE = "/{carNameId}";
-        public static final String GET = "/{carNameId}";
-        public static final String PUT = "/{carNameId}";
     }
 
     public static class UserManagement {
@@ -41,31 +33,36 @@ public final class UrlConstraint {
         public static final String ROOT = VERSION + API + "/auth";
         public static final String LOGIN = "/login";
     }
-    public static class ProfessionManagement{
-        public static final String ROOT =  VERSION + API + "/professions";
+
+    public static class ProfessionManagement {
+        public static final String ROOT = VERSION + API + "/professions";
         public static final String DELETE = "/{professionId}";
         public static final String GET = "/{professionId}";
         public static final String PUT = "/{professionId}";
     }
-    public static class ClientManagement{
-        public static final String ROOT = VERSION + API +  "/clients";
+
+    public static class ClientManagement {
+        public static final String ROOT = VERSION + API + "/clients";
         public static final String DELETE = "/{clientId}";
         public static final String GET = "/{clientId}";
         public static final String PUT = "/{clientId}";
     }
-    public static class CarGradeManagement{
+
+    public static class CarGradeManagement {
         public static final String ROOT = VERSION + API + "/carGrades";
         public static final String DELETE = "/{carGradeId}";
         public static final String GET = "/{carGradeId}";
         public static final String PUT = "/{carGradeId}";
     }
-    public static class CarModelManagement{
+
+    public static class CarModelManagement {
         public static final String ROOT = VERSION + API + "/carModel";
         public static final String DELETE = "/{carModelId}";
         public static final String GET = "/{carModelId}";
         public static final String PUT = "/{carModelId}";
     }
-    public static class CarCompanyManagement{
+
+    public static class CarCompanyManagement {
         public static final String ROOT = VERSION + API + "/carCompany";
         public static final String DELETE = "/{carCompanyId}";
         public static final String GET = "/{carCompanyId}";
