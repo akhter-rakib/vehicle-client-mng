@@ -34,7 +34,7 @@ public class DbInit {
             role = roleRepository.findByName(roleName);
         } else {
             role = new Role();
-            role.setName("super-admin");
+            role.setName(roleName);
             roleRepository.save(role);
         }
         User user = userRepository.getByUserNameAndActiveStatusTrue(ActiveStatus.ACTIVE.getValue(), "super-admin");
