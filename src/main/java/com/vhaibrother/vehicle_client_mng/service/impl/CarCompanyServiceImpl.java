@@ -44,8 +44,8 @@ public class CarCompanyServiceImpl implements CarCompanyService {
     @Override
     public Response update(Long id, CarCompanyDto carCompanyDto) {
         CarCompany carCompanyName = getCarCompanyByName(carCompanyDto);
-        if (carCompanyName != null) {
-            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
+        if (carCompanyName != null && carCompanyName.getId() != id) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This " + root + "Already Created");
         }
         CarCompany carCompany = carCompanyRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
         if (carCompany != null) {

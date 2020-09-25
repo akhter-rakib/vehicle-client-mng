@@ -44,8 +44,8 @@ public class CarModelServiceImpl implements CarModelService {
     @Override
     public Response update(Long id, CarModelDto carModelDto) {
         CarModel carModelName = getModelByName(carModelDto);
-        if (carModelName != null) {
-            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
+        if (carModelName != null && carModelName.getId() != id) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This " + root + "Already Created");
         }
         CarModel carModel = carModelRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
         if (carModel != null) {
