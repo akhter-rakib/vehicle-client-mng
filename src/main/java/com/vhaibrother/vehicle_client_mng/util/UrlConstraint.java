@@ -69,4 +69,10 @@ public final class UrlConstraint {
         public static final String PUT = "/{carCompanyId}";
     }
 
+    public static class CarStockManagement {
+        public static final String ROOT = VERSION + API + "/carStock";
+        public static final String DELETE = "/{carStockId}";
+        public static final String GET = "/{carStockId}";
+        public static final String PUT = "/{carStockId}";
+    }
 }

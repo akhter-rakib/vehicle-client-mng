@@ -33,12 +33,12 @@ public class CarGradeController {
     }
 
     @DeleteMapping(value = UrlConstraint.CarGradeManagement.DELETE)
-    public Response delColor(@PathVariable("carGradeId") Long carGradeId) {
+    public Response del(@PathVariable("carGradeId") Long carGradeId) {
         return carGradeService.del(carGradeId);
     }
 
     @PutMapping(value = UrlConstraint.CarGradeManagement.PUT)
-    public Response updateColor(@RequestBody CarGradeDto carGradeDto, @PathVariable("carGradeId") Long carGradeId) {
+    public Response update(@RequestBody CarGradeDto carGradeDto, @PathVariable("carGradeId") Long carGradeId) {
         return carGradeService.update(carGradeId, carGradeDto);
     }
 }

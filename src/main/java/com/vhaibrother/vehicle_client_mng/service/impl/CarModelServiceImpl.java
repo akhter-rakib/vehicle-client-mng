@@ -28,7 +28,7 @@ public class CarModelServiceImpl implements CarModelService {
 
     @Override
     public Response save(CarModelDto carModelDto) {
-        CarModel carModelName = getColorByName(carModelDto);
+        CarModel carModelName = getModelByName(carModelDto);
         if (carModelName != null) {
             return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
         }
@@ -43,7 +43,22 @@ public class CarModelServiceImpl implements CarModelService {
 
     @Override
     public Response update(Long id, CarModelDto carModelDto) {
-        return null;
+        CarModel carModelName = getModelByName(carModelDto);
+        if (carModelName != null) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
+        }
+        CarModel carModel = carModelRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
+        if (carModel != null) {
+            modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+            carModel = modelMapper.map(carModelDto, CarModel.class);
+            carModel = carModelRepository.save(carModel);
+            if (carModel != null) {
+                return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + " updated Successfully", null);
+            }
+
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error Occurs");
+        }
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root + " not found");
     }
 
     @Override
@@ -76,12 +91,12 @@ public class CarModelServiceImpl implements CarModelService {
         List<CarModel> carModelList = carModelRepository.list(ActiveStatus.ACTIVE.getValue());
         List<CarModelDto> carModelDto = this.getCarModel(carModelList);
         if (carModelDto.isEmpty() || carModelDto == null) {
-            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "There is No  Color");
+            return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, "There is No" + root);
         }
         return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + "Data Retrieve Successfully", carModelDto);
     }
 
-    private CarModel getColorByName(CarModelDto carModelDto) {
+    private CarModel getModelByName(CarModelDto carModelDto) {
         CarModel carModel = carModelRepository.getCarModelsByCarModelName(carModelDto.getCarModelName());
         return carModel;
     }

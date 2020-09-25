@@ -28,7 +28,7 @@ public class CarCompanyServiceImpl implements CarCompanyService {
 
     @Override
     public Response save(CarCompanyDto carCompanyDto) {
-        CarCompany carCompanyName = getColorByName(carCompanyDto);
+        CarCompany carCompanyName = getCarCompanyByName(carCompanyDto);
         if (carCompanyName != null) {
             return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
         }
@@ -43,7 +43,22 @@ public class CarCompanyServiceImpl implements CarCompanyService {
 
     @Override
     public Response update(Long id, CarCompanyDto carCompanyDto) {
-        return null;
+        CarCompany carCompanyName = getCarCompanyByName(carCompanyDto);
+        if (carCompanyName != null) {
+            return ResponseBuilder.getFailureResponse(HttpStatus.IM_USED, "This" + root + "Already Created");
+        }
+        CarCompany carCompany = carCompanyRepository.getByIdAndActiveStatusTrue(id, ActiveStatus.ACTIVE.getValue());
+        if (carCompany != null) {
+            modelMapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+            carCompany = modelMapper.map(carCompanyDto, CarCompany.class);
+            carCompany = carCompanyRepository.save(carCompany);
+            if (carCompany != null) {
+                return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + " updated Successfully", null);
+            }
+
+            return ResponseBuilder.getFailureResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error Occurs");
+        }
+        return ResponseBuilder.getFailureResponse(HttpStatus.NOT_FOUND, root + " not found");
     }
 
     @Override
@@ -81,7 +96,7 @@ public class CarCompanyServiceImpl implements CarCompanyService {
         return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + "Data Retrieve Successfully", carCompanyDto);
     }
 
-    private CarCompany getColorByName(CarCompanyDto carCompanyDto) {
+    private CarCompany getCarCompanyByName(CarCompanyDto carCompanyDto) {
         CarCompany carCompany = carCompanyRepository.getCarCompanyByCarCompanyName(carCompanyDto.getCarCompanyName());
         return carCompany;
     }
