@@ -34,19 +34,17 @@ public class DbInit {
             role = roleRepository.findByName(roleName);
         } else {
             role = new Role();
-            role.setName("ADMIN");
+            role.setName("super-admin");
             roleRepository.save(role);
         }
-        User user = userRepository.getByUserNameAndActiveStatusTrue(ActiveStatus.ACTIVE.getValue(), "rakib");
+        User user = userRepository.getByUserNameAndActiveStatusTrue(ActiveStatus.ACTIVE.getValue(), "super-admin");
         if (user == null) {
             user = new User();
-            user.setUserName("rakib");
+            user.setUserName("super-admin");
             user.setPassword(passwordEncoder.encode("pass"));
             user.setEmail("rakibccj@gmail.com");
         }
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);
-
-
     }
 }
