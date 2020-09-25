@@ -7,7 +7,6 @@ import javax.persistence.OneToOne;
 @Data
 public class CarStockDetailsDto {
     private Long id;
-    @OneToOne
     private ClientDto client;
     private String carType;
     private String color;
