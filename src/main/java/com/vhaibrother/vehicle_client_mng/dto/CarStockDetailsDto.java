@@ -5,8 +5,7 @@ import lombok.Data;
 import javax.persistence.OneToOne;
 
 @Data
-public class CarStockDetailsDto {
-    private Long id;
+public class CarStockDetailsDto extends BaseDto {
     private ClientDto client;
     private String carType;
     private String color;

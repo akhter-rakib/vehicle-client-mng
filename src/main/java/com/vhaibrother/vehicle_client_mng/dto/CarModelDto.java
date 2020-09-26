@@ -6,8 +6,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Data
-public class CarModelDto {
-    private Long id;
+public class CarModelDto extends BaseDto {
     @NotEmpty(message = "Name is mandatory")
     private String carModelName;
     private List<CarGradeDto> carGradeList;

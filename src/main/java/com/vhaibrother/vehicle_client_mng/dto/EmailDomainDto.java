@@ -5,8 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class EmailDomainDto {
-    private Long id;
+public class EmailDomainDto extends BaseDto {
     @NotEmpty(message = "Domain Name is mandatory")
     private String domainName;
 }

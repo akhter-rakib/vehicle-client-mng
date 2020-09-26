@@ -5,8 +5,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class ColorDto {
-    private Long id;
+public class ColorDto extends BaseDto {
     @NotEmpty(message = "Name is mandatory")
     private String colorName;
 }

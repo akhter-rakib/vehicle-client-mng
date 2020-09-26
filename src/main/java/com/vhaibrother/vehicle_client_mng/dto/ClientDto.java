@@ -7,8 +7,7 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class ClientDto {
-    private Long id;
+public class ClientDto extends BaseDto {
     @NotEmpty(message = "Customer name is mandatory")
     private String customerName;
     @NotEmpty(message = "Company name is mandatory")

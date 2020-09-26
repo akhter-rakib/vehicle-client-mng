@@ -22,11 +22,12 @@ public class BaseModel implements Serializable {
     private String updatedBy;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateAt;
-    private Integer activeStatus = ActiveStatus.ACTIVE.getValue();
+    private Integer activeStatus;
 
     @PrePersist
     public void setPreInsertData() {
         this.createdAt = new Date();
+        this.activeStatus = ActiveStatus.ACTIVE.getValue();
     }
 
     @PreUpdate

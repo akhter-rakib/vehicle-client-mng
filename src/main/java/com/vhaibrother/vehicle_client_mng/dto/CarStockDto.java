@@ -9,8 +9,7 @@ import javax.persistence.OneToOne;
 import java.util.Date;
 
 @Data
-public class CarStockDto {
-    private Long id;
+public class CarStockDto extends BaseDto {
     private CarCompanyDto carCompany;
     private CarModelDto carModel;
     private CarGradeDto carGrade;
