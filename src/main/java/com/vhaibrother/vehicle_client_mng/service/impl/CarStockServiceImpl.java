@@ -28,9 +28,9 @@ public class CarStockServiceImpl implements CarStockService {
     }
 
     @Override
-    public Response save(CarStockDto CarStockDto) {
+    public Response save(CarStockDto carStockDto) {
         CarStock carStock;
-        carStock = modelMapper.map(CarStockDto, CarStock.class);
+        carStock = modelMapper.map(carStockDto, CarStock.class);
         carStock = carStockRepository.save(carStock);
         if (carStock != null) {
             return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, root + "Has been Created", null);
