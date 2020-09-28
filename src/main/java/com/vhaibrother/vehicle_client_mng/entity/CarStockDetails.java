@@ -12,6 +12,6 @@ public class CarStockDetails extends BaseModel {
     private String carType;
     private String color;
     private Double price;
-    private String chasisCode;
+    private String carAuction;
     private Boolean availableStatus;
 }

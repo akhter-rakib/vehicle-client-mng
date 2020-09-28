@@ -10,7 +10,6 @@ public class CarStockDetailsDto extends BaseDto {
     private String carType;
     private String color;
     private Double price;
-    private String chasisCode;
+    private String carAuction;
     private Boolean availableStatus;
-    private CarStockDto carStock;
 }
