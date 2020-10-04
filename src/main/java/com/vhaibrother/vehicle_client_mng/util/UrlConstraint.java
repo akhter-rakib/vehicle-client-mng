@@ -74,5 +74,6 @@ public final class UrlConstraint {
         public static final String DELETE = "/{carStockId}";
         public static final String GET = "/{carStockId}";
         public static final String PUT = "/{carStockId}";
+        public static final String GETBYCARETYPE = "/{carType}";
     }
 }

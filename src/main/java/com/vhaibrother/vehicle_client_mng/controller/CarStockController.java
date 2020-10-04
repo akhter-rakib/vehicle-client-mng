@@ -40,4 +40,9 @@ public class CarStockController {
     public Response update(@RequestBody CarStockDto carStockDto, @PathVariable("carStockId") Long carStockId) {
         return carStockService.update(carStockId, carStockDto);
     }
+
+    @GetMapping(value = UrlConstraint.CarStockManagement.GETBYCARETYPE)
+    public Response getAllByCarType(@PathVariable("carType") String carType) {
+        return carStockService.getByCarType(carType);
+    }
 }

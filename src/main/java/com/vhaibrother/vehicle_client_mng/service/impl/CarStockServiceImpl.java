@@ -89,6 +89,17 @@ public class CarStockServiceImpl implements CarStockService {
         return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + "Data Retrieve Successfully", CarStockDtoList);
     }
 
+    @Override
+    public Response getByCarType(String carType) {
+        List<CarStock> carStockList = carStockRepository.getByCarStockDetails_CarType(carType);
+        List<CarStockDto> CarStockDtoList = this.getCarStock(carStockList);
+        if (CarStockDtoList.isEmpty() || CarStockDtoList == null) {
+            return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "There is No  CarStock", null);
+        }
+        return ResponseBuilder.getSuccessResponse(HttpStatus.OK, root + "Data Retrieve Successfully", CarStockDtoList);
+
+    }
+
     private List<CarStockDto> getCarStock(List<CarStock> carStocks) {
         List<CarStockDto> CarStockDtoList = new ArrayList<>();
         carStocks.forEach(carStock -> {

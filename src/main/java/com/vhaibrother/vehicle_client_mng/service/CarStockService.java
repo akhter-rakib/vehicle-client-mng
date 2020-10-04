@@ -13,4 +13,6 @@ public interface CarStockService {
     public Response del(Long id);
 
     public Response getAll();
+
+    public Response getByCarType(String carType);
 }
