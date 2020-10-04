@@ -28,14 +28,21 @@ public class DbInit {
     @PostConstruct
     public void addUser() {
         String roleName = "ADMIN";
-        Role role = new Role();
+        String userRoleName = "USER";
+        Role role;
+        Role userRole;
         int roleExist = roleRepository.countByName(roleName);
+        int userRoleExist = roleRepository.countByName(userRoleName);
         if (roleExist == 1) {
             role = roleRepository.findByName(roleName);
+            userRole = roleRepository.findByName(userRoleName);
         } else {
             role = new Role();
             role.setName(roleName);
             roleRepository.save(role);
+            userRole = new Role();
+            userRole.setName(userRoleName);
+            roleRepository.save(userRole);
         }
         User user = userRepository.getByUserNameAndActiveStatusTrue(ActiveStatus.ACTIVE.getValue(), "super-admin");
         if (user == null) {

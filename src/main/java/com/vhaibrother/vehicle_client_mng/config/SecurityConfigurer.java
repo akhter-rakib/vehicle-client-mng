@@ -58,7 +58,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(UrlConstraint.AuthManagement.ROOT + allPrefix)
+                .antMatchers(UrlConstraint.AuthManagement.ROOT + allPrefix, UrlConstraint.UserManagement.ROOT)
                 .permitAll()
 //                .antMatchers("/jdhhd").hasAnyRole("", "")
                 .anyRequest()
