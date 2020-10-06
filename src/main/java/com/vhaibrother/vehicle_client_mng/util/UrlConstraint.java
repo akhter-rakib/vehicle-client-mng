@@ -76,4 +76,11 @@ public final class UrlConstraint {
         public static final String PUT = "/{carStockId}";
         public static final String GETBYCARETYPE = ROOT + "/getBycarType/{carType}";
     }
+
+    public static class MediaManagement {
+        public static final String ROOT = VERSION + API + "/media";
+        public static final String DELETE = "/{mediaId}";
+        public static final String GET = "/{mediaId}";
+        public static final String PUT = "/{mediaId}";
+    }
 }

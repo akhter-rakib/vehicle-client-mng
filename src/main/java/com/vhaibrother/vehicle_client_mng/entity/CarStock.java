@@ -1,12 +1,11 @@
 package com.vhaibrother.vehicle_client_mng.entity;
 
+import com.vhaibrother.vehicle_client_mng.shared.media.Media;
 import lombok.Data;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,6 +21,7 @@ public class CarStock extends BaseModel {
     private Date yearOfModel;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private CarStockDetails carStockDetails;
-
-
+    private String imagePath;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Media media;
 }
