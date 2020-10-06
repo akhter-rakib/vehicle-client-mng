@@ -4,7 +4,7 @@ import com.vhaibrother.vehicle_client_mng.dto.CarStockDto;
 import com.vhaibrother.vehicle_client_mng.dto.Response;
 
 public interface CarStockService {
-    public Response save(CarStockDto carStockDto) throws Exception;
+    public Response save(CarStockDto carStockDto);
 
     public Response update(Long id, CarStockDto carStockDto);
 
