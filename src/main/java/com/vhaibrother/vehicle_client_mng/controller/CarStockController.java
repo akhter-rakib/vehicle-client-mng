@@ -17,7 +17,7 @@ public class CarStockController {
     }
 
     @PostMapping
-    public Response save(@RequestBody CarStockDto carStockDto) {
+    public Response save(@RequestBody CarStockDto carStockDto) throws Exception {
         return carStockService.save(carStockDto);
     }
 

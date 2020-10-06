@@ -22,6 +22,6 @@ public class CarStock extends BaseModel {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private CarStockDetails carStockDetails;
     private String imagePath;
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne
     private Media media;
 }

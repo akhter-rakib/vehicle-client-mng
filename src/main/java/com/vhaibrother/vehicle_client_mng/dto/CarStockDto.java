@@ -3,6 +3,7 @@ package com.vhaibrother.vehicle_client_mng.dto;
 import com.vhaibrother.vehicle_client_mng.entity.*;
 import com.vhaibrother.vehicle_client_mng.shared.media.Media;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
@@ -19,6 +20,6 @@ public class CarStockDto extends BaseDto {
     private int chassisNo;
     private Date yearOfModel;
     private CarStockDetailsDto carStockDetails;
-    private String imagePath;
-    private Media media;
+    private MultipartFile imagePath;
+    private long mediaId;
 }

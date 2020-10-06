@@ -6,9 +6,13 @@ import com.vhaibrother.vehicle_client_mng.entity.CarStock;
 import com.vhaibrother.vehicle_client_mng.enums.ActiveStatus;
 import com.vhaibrother.vehicle_client_mng.repository.CarStockRepository;
 import com.vhaibrother.vehicle_client_mng.service.CarStockService;
+import com.vhaibrother.vehicle_client_mng.shared.media.Media;
+import com.vhaibrother.vehicle_client_mng.shared.media.MediaComponent;
 import com.vhaibrother.vehicle_client_mng.util.ResponseBuilder;
+import javassist.NotFoundException;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +21,9 @@ import java.util.List;
 
 @Service
 public class CarStockServiceImpl implements CarStockService {
+
+    @Autowired
+    private MediaComponent mediaComponent;
 
     private final CarStockRepository carStockRepository;
     private final ModelMapper modelMapper;
@@ -28,8 +35,18 @@ public class CarStockServiceImpl implements CarStockService {
     }
 
     @Override
-    public Response save(CarStockDto carStockDto) {
-        CarStock carStock;
+    public Response save(CarStockDto carStockDto) throws Exception{
+        CarStock carStock = null;
+        Media media = null;
+        if (carStockDto.getId() != null) {
+            carStock = carStockRepository.findById(carStockDto.getId()).orElseThrow(() -> new NotFoundException("Car Stock not found"));
+        } else {
+            carStock = new CarStock();
+        }
+        if (carStockDto.getImagePath() != null) {
+            media = mediaComponent.saveMedia(carStockDto.getImagePath());
+        }
+        if(null != media) carStock.setMedia(media);
         carStock = modelMapper.map(carStockDto, CarStock.class);
         carStock = carStockRepository.save(carStock);
         if (carStock != null) {
