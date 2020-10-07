@@ -15,6 +15,13 @@ public final class UrlConstraint {
         public static final String PUT = "/{colorId}";
     }
 
+    public static class RoleManagement {
+        public static final String ROOT = VERSION + API + "/roles";
+        public static final String DELETE = "/{roleId}";
+        public static final String GET = "/{roleId}";
+        public static final String PUT = "/{roleId}";
+    }
+
     public static class DomainManagement {
         public static final String ROOT = VERSION + API + "/domains";
         public static final String DELETE = "/{domainId}";
