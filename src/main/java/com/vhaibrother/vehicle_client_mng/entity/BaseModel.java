@@ -33,7 +33,8 @@ public class BaseModel implements Serializable {
     @PreUpdate
     public void setPreUpdateData() {
         this.updateAt = new Date();
-        this.activeStatus = ActiveStatus.ACTIVE.getValue();
+        if (this.activeStatus != ActiveStatus.DELETE.getValue())
+            this.activeStatus = ActiveStatus.ACTIVE.getValue();
     }
 
 }
