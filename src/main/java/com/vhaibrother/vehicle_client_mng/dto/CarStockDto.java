@@ -2,6 +2,7 @@ package com.vhaibrother.vehicle_client_mng.dto;
 
 import com.vhaibrother.vehicle_client_mng.entity.*;
 import com.vhaibrother.vehicle_client_mng.shared.media.Media;
+import com.vhaibrother.vehicle_client_mng.shared.media.MediaDto;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,5 +22,5 @@ public class CarStockDto extends BaseDto {
     private Date yearOfModel;
     private CarStockDetailsDto carStockDetails;
     private MultipartFile imagePath;
-    private long mediaId;
+    private MediaDto media;
 }

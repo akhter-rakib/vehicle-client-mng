@@ -16,8 +16,8 @@ public class CarStock extends BaseModel {
     private CarModel carModel;
     @OneToOne
     private CarGrade carGrade;
-    private String engineNo;
-    private String chassisNo;
+    private int engineNo;
+    private int chassisNo;
     private Date yearOfModel;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private CarStockDetails carStockDetails;
