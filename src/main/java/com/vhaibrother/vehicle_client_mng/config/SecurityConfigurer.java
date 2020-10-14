@@ -58,11 +58,11 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(UrlConstraint.AuthManagement.ROOT + allPrefix, UrlConstraint.UserManagement.ROOT,  UrlConstraint.MediaManagement.ROOT+allPrefix, "/resources/**")
+                .antMatchers(UrlConstraint.AuthManagement.ROOT + allPrefix, UrlConstraint.UserManagement.ROOT, UrlConstraint.MediaManagement.ROOT + allPrefix)
                 .permitAll()
-//                .antMatchers("/jdhhd").hasAnyRole("", "")
                 .anyRequest()
                 .authenticated();
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.headers().cacheControl();
     }
 }
