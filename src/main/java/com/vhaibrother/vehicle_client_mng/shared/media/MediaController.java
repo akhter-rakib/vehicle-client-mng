@@ -26,7 +26,7 @@ public class MediaController {
 
     @GetMapping(value = UrlConstraint.MediaManagement.GET)
     public void getMedia(@PathVariable("id") Long id, HttpServletResponse response) {
-        response.setContentType("image/*");
+        response.setContentType("image/jpg");
         try {
             Optional<Media> media = mediaRepository.findById(id);
             if(media !=null) {

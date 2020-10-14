@@ -61,13 +61,13 @@ public class CarStockServiceImpl implements CarStockService {
             media = mediaComponent.saveMedia(carStockDto.getImagePath());
         }
         //carStock = modelMapper.map(carStockDto, CarStock.class);
-        if(null != company) carStock.setCarCompany(company);
-        if(null != model) carStock.setCarModel(model);
-        if(null != grade) carStock.setCarGrade(grade);
+        carStock.setCarCompany(company);
+        carStock.setCarModel(model);
+        carStock.setCarGrade(grade);
         carStock.setEngineNo(carStockDto.getEngineNo());
         carStock.setChassisNo(carStockDto.getChassisNo());
         carStock.setYearOfModel(carStockDto.getYearOfModel());
-        if(null != client) carStock.setClient(client);
+        carStock.setClient(client);
         carStock.setCarType(carStockDto.getCarType());
         carStock.setColor(carStockDto.getColor());
         carStock.setPrice(carStockDto.getPrice());
