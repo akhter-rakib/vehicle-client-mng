@@ -2,9 +2,9 @@ package com.vhaibrother.vehicle_client_mng.service.impl;
 
 import com.vhaibrother.vehicle_client_mng.dto.CarStockDto;
 import com.vhaibrother.vehicle_client_mng.dto.Response;
-import com.vhaibrother.vehicle_client_mng.entity.CarStock;
+import com.vhaibrother.vehicle_client_mng.entity.*;
 import com.vhaibrother.vehicle_client_mng.enums.ActiveStatus;
-import com.vhaibrother.vehicle_client_mng.repository.CarStockRepository;
+import com.vhaibrother.vehicle_client_mng.repository.*;
 import com.vhaibrother.vehicle_client_mng.service.CarStockService;
 import com.vhaibrother.vehicle_client_mng.shared.media.Media;
 import com.vhaibrother.vehicle_client_mng.shared.media.MediaComponent;
@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,14 @@ public class CarStockServiceImpl implements CarStockService {
 
     @Autowired
     private MediaComponent mediaComponent;
+    @Autowired
+    private CarCompanyRepository carCompanyRepository;
+    @Autowired
+    private CarModelRepository carModelRepository;
+    @Autowired
+    private CarGradeRepository carGradeRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
     private final CarStockRepository carStockRepository;
     private final ModelMapper modelMapper;
@@ -35,19 +44,36 @@ public class CarStockServiceImpl implements CarStockService {
     }
 
     @Override
+    @Transactional
     public Response save(CarStockDto carStockDto) throws Exception{
         CarStock carStock = null;
-        Media media = null;
         if (carStockDto.getId() != null) {
             carStock = carStockRepository.findById(carStockDto.getId()).orElseThrow(() -> new NotFoundException("Car Stock not found"));
         } else {
             carStock = new CarStock();
         }
+        CarCompany company = carCompanyRepository.findById(carStockDto.getCarCompanyId()).orElseThrow(() -> new NotFoundException("Car Company not found"));
+        CarModel model = carModelRepository.findById(carStockDto.getCarModelId()).orElseThrow(() -> new NotFoundException("Car Brand/Model not found"));
+        CarGrade grade = carGradeRepository.findById(carStockDto.getCarGradeId()).orElseThrow(() -> new NotFoundException("Car Grade not found"));
+        Client client = clientRepository.findById(carStockDto.getClientId()).orElseThrow(() -> new NotFoundException("Client/Importer not found"));
+        Media media = null;
         if (carStockDto.getImagePath() != null) {
             media = mediaComponent.saveMedia(carStockDto.getImagePath());
         }
+        //carStock = modelMapper.map(carStockDto, CarStock.class);
+        if(null != company) carStock.setCarCompany(company);
+        if(null != model) carStock.setCarModel(model);
+        if(null != grade) carStock.setCarGrade(grade);
+        carStock.setEngineNo(carStockDto.getEngineNo());
+        carStock.setChassisNo(carStockDto.getChassisNo());
+        carStock.setYearOfModel(carStockDto.getYearOfModel());
+        if(null != client) carStock.setClient(client);
+        carStock.setCarType(carStockDto.getCarType());
+        carStock.setColor(carStockDto.getColor());
+        carStock.setPrice(carStockDto.getPrice());
+        carStock.setCarAuction(carStockDto.getCarAuction());
+        carStock.setAvailableStatus(carStockDto.getAvailableStatus());
         if(null != media) carStock.setMedia(media);
-        carStock = modelMapper.map(carStockDto, CarStock.class);
         carStock = carStockRepository.save(carStock);
         if (carStock != null) {
             return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, root + "Has been Created", null);
@@ -108,7 +134,7 @@ public class CarStockServiceImpl implements CarStockService {
 
     @Override
     public Response getByCarType(String carType) {
-        List<CarStock> carStockList = carStockRepository.getByCarStockDetails_CarType(carType);
+        List<CarStock> carStockList = carStockRepository.getByCarType(carType);
         List<CarStockDto> CarStockDtoList = this.getCarStock(carStockList);
         if (CarStockDtoList.isEmpty() || CarStockDtoList == null) {
             return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "There is No  CarStock", null);
