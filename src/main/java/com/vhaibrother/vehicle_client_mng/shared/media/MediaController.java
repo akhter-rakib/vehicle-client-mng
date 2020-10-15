@@ -5,6 +5,7 @@ import com.vhaibrother.vehicle_client_mng.dto.Response;
 import com.vhaibrother.vehicle_client_mng.util.UrlConstraint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +26,8 @@ public class MediaController {
     private MediaComponent mediaComponent;
 
     @GetMapping(value = UrlConstraint.MediaManagement.GET)
-    public void getMedia(@PathVariable("id") Long id, HttpServletResponse response) {
-        response.setContentType("image/jpg");
+    public void getMedia(@PathVariable("mediaId") Long id, HttpServletResponse response) {
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
         try {
             Optional<Media> media = mediaRepository.findById(id);
             if(media !=null) {

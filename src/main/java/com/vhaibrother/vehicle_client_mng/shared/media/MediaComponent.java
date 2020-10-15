@@ -39,7 +39,6 @@ public class MediaComponent implements Serializable {
             Media media = new Media();
             media.setPath(uploadPath);
             media.setType(file.getContentType());
-            mediaRepository.save(media);
             media.setName(file.getOriginalFilename());
             mediaRepository.save(media);
             return media;
