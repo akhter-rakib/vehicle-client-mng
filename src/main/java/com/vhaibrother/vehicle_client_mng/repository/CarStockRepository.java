@@ -14,5 +14,6 @@ public interface CarStockRepository extends JpaRepository<CarStock, Long> {
     @Query("from CarStock where id = :carStockId and activeStatus = :activeStatus")
     CarStock getByIdAndActiveStatusTrue(@Param("carStockId") Long carStockId, @Param("activeStatus") Integer activeStatus);
 
-    List<CarStock> getByCarType(String carType);
+    @Query("from CarStock where carType = :carType and activeStatus = 1")
+    List<CarStock> getByCarType(@Param("carType")  String carType);
 }
