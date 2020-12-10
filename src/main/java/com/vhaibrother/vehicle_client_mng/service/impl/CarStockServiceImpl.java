@@ -134,7 +134,8 @@ public class CarStockServiceImpl implements CarStockService {
 
     @Override
     public Response getByCarType(String carType) {
-        List<CarStock> carStockList = carStockRepository.getByCarType(carType);
+        List<CarStock> carStockList = carStockRepository.list(ActiveStatus.ACTIVE.getValue());
+        //List<CarStock> carStockList = carStockRepository.getByCarType(carType);
         List<CarStockDto> CarStockDtoList = this.getCarStock(carStockList);
         if (CarStockDtoList.isEmpty() || CarStockDtoList == null) {
             return ResponseBuilder.getSuccessResponse(HttpStatus.OK, "There is No  CarStock", null);
