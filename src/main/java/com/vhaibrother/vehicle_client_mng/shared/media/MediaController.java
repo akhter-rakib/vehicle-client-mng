@@ -50,9 +50,8 @@ public class MediaController {
         return mediaRepository.findAll();
     }
 
-    @PostMapping(value = UrlConstraint.MediaManagement.ROOT)
+    @PostMapping
     public ResponseEntity<?> saveContent(@ModelAttribute MediaDto mediaDto) {
-
         try {
             Media media = mediaComponent.saveMedia(mediaDto.getFiles());
             return ResponseEntity.ok(media);

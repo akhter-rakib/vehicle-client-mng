@@ -8,6 +8,7 @@ import com.vhaibrother.vehicle_client_mng.repository.*;
 import com.vhaibrother.vehicle_client_mng.service.CarStockService;
 import com.vhaibrother.vehicle_client_mng.shared.media.Media;
 import com.vhaibrother.vehicle_client_mng.shared.media.MediaComponent;
+import com.vhaibrother.vehicle_client_mng.shared.media.MediaRepository;
 import com.vhaibrother.vehicle_client_mng.util.ResponseBuilder;
 import javassist.NotFoundException;
 import org.modelmapper.Conditions;
@@ -19,12 +20,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarStockServiceImpl implements CarStockService {
 
     @Autowired
-    private MediaComponent mediaComponent;
+    private MediaRepository mediaRepository;
     @Autowired
     private CarCompanyRepository carCompanyRepository;
     @Autowired
@@ -45,7 +47,7 @@ public class CarStockServiceImpl implements CarStockService {
 
     @Override
     @Transactional
-    public Response save(CarStockDto carStockDto) throws Exception{
+    public Response save(CarStockDto carStockDto) throws Exception {
         CarStock carStock = null;
         if (carStockDto.getId() != null) {
             carStock = carStockRepository.findById(carStockDto.getId()).orElseThrow(() -> new NotFoundException("Car Stock not found"));
@@ -56,10 +58,10 @@ public class CarStockServiceImpl implements CarStockService {
         CarModel model = carModelRepository.findById(carStockDto.getCarModelId()).orElseThrow(() -> new NotFoundException("Car Brand/Model not found"));
         CarGrade grade = carGradeRepository.findById(carStockDto.getCarGradeId()).orElseThrow(() -> new NotFoundException("Car Grade not found"));
         Client client = clientRepository.findById(carStockDto.getClientId()).orElseThrow(() -> new NotFoundException("Client/Importer not found"));
-        Media media = null;
+        /*Media media = null;
         if (carStockDto.getImagePath() != null) {
             media = mediaComponent.saveMedia(carStockDto.getImagePath());
-        }
+        }*/
         //carStock = modelMapper.map(carStockDto, CarStock.class);
         carStock.setCarCompany(company);
         carStock.setCarModel(model);
@@ -73,7 +75,14 @@ public class CarStockServiceImpl implements CarStockService {
         carStock.setPrice(carStockDto.getPrice());
         carStock.setCarAuction(carStockDto.getCarAuction());
         carStock.setAvailableStatus(carStockDto.getAvailableStatus());
-        if(null != media) carStock.setMedia(media);
+        List<Media> mediaList = new ArrayList<>();
+        for (String id : carStockDto.getImages()){
+            Optional<Media> media = mediaRepository.findById(Long.valueOf(id));
+            if(media.get() !=null){
+                mediaList.add(media.get());
+            }
+        }
+        carStock.setImages(mediaList);
         carStock = carStockRepository.save(carStock);
         if (carStock != null) {
             return ResponseBuilder.getSuccessResponse(HttpStatus.CREATED, root + "Has been Created", null);
