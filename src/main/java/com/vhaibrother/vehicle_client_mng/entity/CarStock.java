@@ -4,8 +4,7 @@ import com.vhaibrother.vehicle_client_mng.shared.media.Media;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -26,7 +25,6 @@ public class CarStock extends BaseModel {
     private Double price;
     private String carAuction;
     private Boolean availableStatus;
-    private String imagePath;
-    @OneToOne
-    private Media media;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Collection<Media> images;
 }
